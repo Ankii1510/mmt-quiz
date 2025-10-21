@@ -50,7 +50,16 @@
   p.lead{ margin:4px 0 14px; color:var(--muted) }
   .card{ background:var(--card); padding:18px; border-radius:10px }
   .hero{ width:100%; height:220px; border-radius:10px; overflow:hidden; border:1px solid rgba(255,255,255,0.02); display:grid; place-items:center; margin-bottom:12px; background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00)) }
-  .hero img{ width:100%; height:100%; object-fit:cover }
+  .hero img{
+  width:auto;
+  height:auto;
+  max-width:100%;
+  max-height:100%;
+  display:block;
+  margin:auto;
+  object-fit:contain;
+}
+
   .question{ font-size:18px; margin-bottom:12px }
   .answers{ display:grid; gap:10px }
   button.opt{ padding:12px; border-radius:8px; border:1px solid rgba(255,255,255,0.04); background:transparent; color:inherit; text-align:left; cursor:pointer }
