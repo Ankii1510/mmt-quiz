@@ -15,68 +15,33 @@
 <meta name="twitter:description" content="Test your knowledge of Momentum (MMT) — 15-question interactive quiz. Built from official docs and app content." />
 <meta name="twitter:image" content="assets/social-card.png" />
 <style>
-  :root {
-    --bg: #0f1724;
-    --card: #0b1220;
-    --accent: #38bdf8; /* button base */
-    --accent-hover: #0ea5e9; /* hover */
-    --muted: #94a3b8;
-    --btn-text: #ffffff;
-  }
-  body {
-    font-family: Inter, system-ui, "Segoe UI", Roboto, Arial;
-    background: linear-gradient(180deg,#071029 0%, #071b2a 100%);
-    color: #e6eef8;
-    margin: 0;
-    min-height: 100vh;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:20px;
-  }
-  .app {
-    width:100%;
-    max-width:920px;
-    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-    border-radius:12px;
-    padding:22px;
-    box-shadow:0 10px 30px rgba(2,6,23,0.6);
-  }
-  header{ display:flex; align-items:center; gap:14px; margin-bottom:12px }
-  .logoWrap{ display:flex; gap:12px; align-items:center }
-  .logo{ width:64px; height:64px; border-radius:12px; background:#062033; display:grid; place-items:center; font-weight:700; color:#fff; border:1px solid rgba(255,255,255,0.04); overflow:hidden }
-  .logo img{ width:100%; height:100%; object-fit:contain; display:block }
-  h1{ margin:0; font-size:20px }
-  p.lead{ margin:4px 0 14px; color:var(--muted) }
-  .card{ background:var(--card); padding:18px; border-radius:10px }
-  .hero{ width:100%; height:220px; border-radius:10px; overflow:hidden; border:1px solid rgba(255,255,255,0.02); display:grid; place-items:center; margin-bottom:12px; background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00)) }
-  .hero img{ width:100%; height:100%; object-fit:cover }
-  .question{ font-size:18px; margin-bottom:12px }
-  .answers{ display:grid; gap:10px }
-  button.opt{ padding:12px; border-radius:8px; border:1px solid rgba(255,255,255,0.04); background:transparent; color:inherit; text-align:left; cursor:pointer }
-  button.opt:hover{ outline:2px solid rgba(125,211,252,0.08) }
-  .meta{ display:flex; justify-content:space-between; align-items:center; margin-top:12px; color:var(--muted); font-size:14px }
-  .progress{ height:8px; background:rgba(255,255,255,0.03); border-radius:6px; overflow:hidden }
-  .bar{ height:100%; background: linear-gradient(90deg,var(--accent), #60a5fa); width:0% }
-  .controls{ display:flex; gap:8px; align-items:center; margin-top:10px }
-  /* Updated solid button styles */
-  .btn {
-    padding:8px 12px;
-    border-radius:8px;
-    border:none;
-    background:var(--accent);
-    color:var(--btn-text);
-    cursor:pointer;
-    box-shadow: 0 4px 10px rgba(3,7,18,0.45);
-    font-weight:600;
-  }
-  .btn:hover{ background:var(--accent-hover); transform: translateY(-1px); transition: background 120ms, transform 120ms; }
-  .small{ font-size:13px; color:var(--muted) }
-  .result{ display:none }
-  .leader{ margin-top:12px }
-  input.share{ width:100%; padding:8px; border-radius:6px; border:1px solid rgba(255,255,255,0.04); background:transparent; color:inherit }
-  footer{ margin-top:14px; color:var(--muted); font-size:13px }
-  @media(min-width:900px){ .hero{ height:260px } .question{ font-size:20px } }
+  :root{--bg:#0f1724;--card:#0b1220;--accent:#7dd3fc;--muted:#94a3b8}
+  body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial;background:linear-gradient(180deg,#071029 0%, #071b2a 100%);color:#e6eef8;margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+  .app{width:100%;max-width:920px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:12px;padding:22px;box-shadow:0 10px 30px rgba(2,6,23,0.6)}
+  header{display:flex;align-items:center;gap:14px;margin-bottom:12px}
+  .logoWrap{display:flex;gap:12px;align-items:center}
+  .logo{width:64px;height:64px;border-radius:12px;background:#062033;display:grid;place-items:center;font-weight:700;color:#fff;border:1px solid rgba(255,255,255,0.04);overflow:hidden}
+  .logo img{width:100%;height:100%;object-fit:contain;display:block}
+  h1{margin:0;font-size:20px}
+  p.lead{margin:4px 0 14px;color:var(--muted)}
+  .card{background:var(--card);padding:18px;border-radius:10px}
+  .hero{width:100%;height:220px;border-radius:10px;overflow:hidden;border:1px solid rgba(255,255,255,0.02);display:grid;place-items:center;margin-bottom:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00))}
+  .hero img{width:100%;height:100%;object-fit:cover}
+  .question{font-size:18px;margin-bottom:12px}
+  .answers{display:grid;gap:10px}
+  button.opt{padding:12px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit;text-align:left;cursor:pointer}
+  button.opt:hover{outline:2px solid rgba(125,211,252,0.08)}
+  .meta{display:flex;justify-content:space-between;align-items:center;margin-top:12px;color:var(--muted);font-size:14px}
+  .progress{height:8px;background:rgba(255,255,255,0.03);border-radius:6px;overflow:hidden}
+  .bar{height:100%;background:linear-gradient(90deg,var(--accent),#60a5fa);width:0%}
+  .controls{display:flex;gap:8px;align-items:center;margin-top:10px}
+  .btn{padding:8px 12px;border-radius:8px;border:none;background:var(--accent);color:#032;cursor:pointer}
+  .small{font-size:13px;color:var(--muted)}
+  .result{display:none}
+  .leader{margin-top:12px}
+  input.share{width:100%;padding:8px;border-radius:6px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit}
+  footer{margin-top:14px;color:var(--muted);font-size:13px}
+  @media(min-width:900px){ .hero{height:260px} .question{font-size:20px} }
 </style>
 </head>
 <body>
@@ -84,8 +49,7 @@
     <header>
       <div class="logoWrap">
         <div class="logo" aria-hidden="true">
-          <!-- SMALL HEADER LOGO: using the round image (previously hero.png) -->
-          <img src="assets/hero.png" alt="MMT small logo">
+          <img src="assets/logo.png" alt="MMT logo">
         </div>
       </div>
 
@@ -96,9 +60,8 @@
     </header>
 
     <div class="card" id="quizCard">
-      <!-- HERO BANNER: using the rectangular logo (previously logo.png) -->
       <div class="hero" id="hero">
-        <img src="assets/logo.png" alt="MMT hero banner">
+        <img src="assets/hero.png" alt="MMT hero">
       </div>
 
       <div id="intro">
@@ -106,8 +69,8 @@
         Tip: This is ready to deploy to Vercel — see instructions below.</p>
         <div style="display:flex;gap:8px;margin-top:12px">
           <button class="btn" id="startBtn">Start Quiz</button>
-          <button class="btn" id="viewKeyBtn" style="background:var(--accent);">View Answer Key</button>
-          <a href="https://app.mmt.finance/" target="_blank" style="text-decoration:none"><button class="btn" id="openAppBtn">Open app.mmt.finance</button></a>
+          <button class="btn" id="viewKeyBtn" style="background:#213547">View Answer Key</button>
+          <a href="https://app.mmt.finance/" target="_blank" style="text-decoration:none"><button class="btn" style="background:#0ea5a3">Open app.mmt.finance</button></a>
         </div>
       </div>
 
@@ -288,7 +251,7 @@ function endQuiz(){
 function renderLeaderboard(){
   const data = JSON.parse(localStorage.getItem('mmt_quiz_lb')||'[]');
   leaderboard.innerHTML='';
-  if(data.length===0){ leaderboard.innerHTML='<li class="small'>No scores saved yet.</li>'; return; }
+  if(data.length===0){ leaderboard.innerHTML='<li class="small">No scores saved yet.</li>'; return; }
   data.slice(0,10).forEach(s=>{
     const li = document.createElement('li');
     li.textContent = `${s.name} — ${s.score} pts (${s.date})`;
