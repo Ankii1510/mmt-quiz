@@ -50,16 +50,7 @@
   p.lead{ margin:4px 0 14px; color:var(--muted) }
   .card{ background:var(--card); padding:18px; border-radius:10px }
   .hero{ width:100%; height:220px; border-radius:10px; overflow:hidden; border:1px solid rgba(255,255,255,0.02); display:grid; place-items:center; margin-bottom:12px; background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00)) }
-  .hero img{
-  width:auto;
-  height:auto;
-  max-width:100%;
-  max-height:100%;
-  display:block;
-  margin:auto;
-  object-fit:contain;
-}
-
+  .hero img{ width:100%; height:100%; object-fit:cover }
   .question{ font-size:18px; margin-bottom:12px }
   .answers{ display:grid; gap:10px }
   button.opt{ padding:12px; border-radius:8px; border:1px solid rgba(255,255,255,0.04); background:transparent; color:inherit; text-align:left; cursor:pointer }
@@ -91,23 +82,24 @@
 <body>
   <div class="app" role="main" aria-labelledby="title">
     <header>
-  <div class="logoWrap">
-    <div class="logo" aria-hidden="true">
-      <img src="assets/logo.png" alt="MMT small logo">
-    </div>
-  </div>
+      <div class="logoWrap">
+        <div class="logo" aria-hidden="true">
+          <!-- SMALL HEADER LOGO: using the round image (previously hero.png) -->
+          <img src="assets/hero.png" alt="MMT small logo">
+        </div>
+      </div>
 
-  <div>
-    <h1 id="title">MMT Finance — Momentum Quiz</h1>
-    <p class="lead">15 questions — test your Momentum (MMT) knowledge. Official branding integrated.</p>
-  </div>
-</header>
+      <div>
+        <h1 id="title">MMT Finance — Momentum Quiz</h1>
+        <p class="lead">15 questions — test your Momentum (MMT) knowledge. Official branding integrated.</p>
+      </div>
+    </header>
 
-<div class="card" id="quizCard">
-  <div class="hero" id="hero">
-    <img src="assets/hero.png" alt="MMT hero banner">
-  </div>
-
+    <div class="card" id="quizCard">
+      <!-- HERO BANNER: using the rectangular logo (previously logo.png) -->
+      <div class="hero" id="hero">
+        <img src="assets/logo.png" alt="MMT hero banner">
+      </div>
 
       <div id="intro">
         <p class="small">Press <strong>Start</strong> to begin. Each question has a 25s timer. Correct = +10 pts + speed bonus.<br>
