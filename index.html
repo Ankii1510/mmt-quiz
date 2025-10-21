@@ -1,1 +1,292 @@
-<!doctype html><html><body><h1>MMT Quiz</h1></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>MMT Finance — Momentum Quiz</title>
+<link rel="icon" href="assets/favicon.png" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="MMT Finance — Momentum Quiz" />
+<meta property="og:description" content="Test your knowledge of Momentum (MMT) — 15-question interactive quiz. Built from official docs and app content." />
+<meta property="og:image" content="assets/social-card.png" />
+<meta property="og:image:alt" content="MMT Finance — Momentum Quiz" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="MMT Finance — Momentum Quiz" />
+<meta name="twitter:description" content="Test your knowledge of Momentum (MMT) — 15-question interactive quiz. Built from official docs and app content." />
+<meta name="twitter:image" content="assets/social-card.png" />
+<style>
+  :root{--bg:#0f1724;--card:#0b1220;--accent:#7dd3fc;--muted:#94a3b8}
+  body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial;background:linear-gradient(180deg,#071029 0%, #071b2a 100%);color:#e6eef8;margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+  .app{width:100%;max-width:920px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:12px;padding:22px;box-shadow:0 10px 30px rgba(2,6,23,0.6)}
+  header{display:flex;align-items:center;gap:14px;margin-bottom:12px}
+  .logoWrap{display:flex;gap:12px;align-items:center}
+  .logo{width:64px;height:64px;border-radius:12px;background:#062033;display:grid;place-items:center;font-weight:700;color:#fff;border:1px solid rgba(255,255,255,0.04);overflow:hidden}
+  .logo img{width:100%;height:100%;object-fit:contain;display:block}
+  h1{margin:0;font-size:20px}
+  p.lead{margin:4px 0 14px;color:var(--muted)}
+  .card{background:var(--card);padding:18px;border-radius:10px}
+  .hero{width:100%;height:220px;border-radius:10px;overflow:hidden;border:1px solid rgba(255,255,255,0.02);display:grid;place-items:center;margin-bottom:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00))}
+  .hero img{width:100%;height:100%;object-fit:cover}
+  .question{font-size:18px;margin-bottom:12px}
+  .answers{display:grid;gap:10px}
+  button.opt{padding:12px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit;text-align:left;cursor:pointer}
+  button.opt:hover{outline:2px solid rgba(125,211,252,0.08)}
+  .meta{display:flex;justify-content:space-between;align-items:center;margin-top:12px;color:var(--muted);font-size:14px}
+  .progress{height:8px;background:rgba(255,255,255,0.03);border-radius:6px;overflow:hidden}
+  .bar{height:100%;background:linear-gradient(90deg,var(--accent),#60a5fa);width:0%}
+  .controls{display:flex;gap:8px;align-items:center;margin-top:10px}
+  .btn{padding:8px 12px;border-radius:8px;border:none;background:var(--accent);color:#032;cursor:pointer}
+  .small{font-size:13px;color:var(--muted)}
+  .result{display:none}
+  .leader{margin-top:12px}
+  input.share{width:100%;padding:8px;border-radius:6px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit}
+  footer{margin-top:14px;color:var(--muted);font-size:13px}
+  @media(min-width:900px){ .hero{height:260px} .question{font-size:20px} }
+</style>
+</head>
+<body>
+  <div class="app" role="main" aria-labelledby="title">
+    <header>
+      <div class="logoWrap">
+        <div class="logo" aria-hidden="true">
+          <img src="assets/logo.png" alt="MMT logo">
+        </div>
+      </div>
+
+      <div>
+        <h1 id="title">MMT Finance — Momentum Quiz</h1>
+        <p class="lead">15 questions — test your Momentum (MMT) knowledge. Official branding integrated.</p>
+      </div>
+    </header>
+
+    <div class="card" id="quizCard">
+      <div class="hero" id="hero">
+        <img src="assets/hero.png" alt="MMT hero">
+      </div>
+
+      <div id="intro">
+        <p class="small">Press <strong>Start</strong> to begin. Each question has a 25s timer. Correct = +10 pts + speed bonus.<br>
+        Tip: This is ready to deploy to Vercel — see instructions below.</p>
+        <div style="display:flex;gap:8px;margin-top:12px">
+          <button class="btn" id="startBtn">Start Quiz</button>
+          <button class="btn" id="viewKeyBtn" style="background:#213547">View Answer Key</button>
+          <a href="https://app.mmt.finance/" target="_blank" style="text-decoration:none"><button class="btn" style="background:#0ea5a3">Open app.mmt.finance</button></a>
+        </div>
+      </div>
+
+      <div id="questionArea" style="display:none">
+        <div class="meta">
+          <div class="small">Question <span id="qIndex">1</span> / <span id="qTotal">15</span></div>
+          <div class="small">Score: <span id="score">0</span></div>
+        </div>
+
+        <div class="progress" aria-hidden="true" style="margin-top:10px"><div class="bar" id="progressBar"></div></div>
+        <div style="height:12px"></div>
+
+        <div class="question" id="questionText">Question text</div>
+
+        <div class="answers" id="answersList"></div>
+
+        <div class="controls">
+          <div class="small">Time left: <strong id="timer">25</strong>s</div>
+          <div style="flex:1"></div>
+          <button class="btn" id="nextBtn" disabled>Next</button>
+        </div>
+      </div>
+
+      <div id="resultArea" class="result card" style="margin-top:12px">
+        <h3 id="finalTitle">Your result</h3>
+        <p id="finalStats" class="small"></p>
+        <div style="margin-top:8px">
+          <input class="share" id="shareTxt" readonly />
+        </div>
+        <div style="display:flex;gap:8px;margin-top:10px">
+          <button class="btn" id="saveScore">Save to Local Leaderboard</button>
+          <button class="btn" id="playAgain" style="background:#213547">Play Again</button>
+        </div>
+
+        <div class="leader">
+          <h4 style="margin:10px 0 6px">Local Leaderboard</h4>
+          <ol id="leaderboard" class="small"></ol>
+        </div>
+      </div>
+
+      <div id="keyArea" style="display:none;margin-top:12px" class="card">
+        <h4 style="margin:0 0 8px">Answer Key & Explanations</h4>
+        <div id="keyList" class="small" style="line-height:1.5"></div>
+      </div>
+
+      <footer>
+        Sources: docs.mmt.finance, app.mmt.finance, Momentum X profile (official).
+      </footer>
+    </div>
+  </div>
+
+<script>
+const QUESTIONS = [
+{"q":"What blockchain ecosystem is Momentum (MMT) primarily built on?","opts":["Ethereum","Sui / Move","Solana","Bitcoin"],"a":1,"explain":"Momentum is built on Sui and uses Move (official docs / litepaper).","cite":"docs.mmt.finance"},
+{"q":"What product gives liquid staking for SUI on Momentum?","opts":["xSUI","ySUI","VaultSUI","StakeMMT"],"a":0,"explain":"xSUI is Momentum’s liquid staking token available via the app.","cite":"app.mmt.finance"},
+{"q":"Which product handles treasury and vesting for Momentum?","opts":["Vaults","MSafe","MomentumX","CLMM"],"a":1,"explain":"MSafe is Momentum's multi-sig treasury infrastructure.","cite":"docs.mmt.finance"},
+{"q":"Momentum’s DEX is designed around which incentive model?","opts":["Proof-of-stake rewards only","ve(3,3) / vote-escrow incentives","Flat fee distribution","No token incentives"],"a":1,"explain":"The protocol describes ve(3,3)-style vote-escrow incentives in the litepaper/docs.","cite":"docs.mmt.finance"},
+{"q":"What does Momentum plan to expand into (phased roadmap)?","opts":["Only Sui forever","Cross-chain crypto assets and RWAs","Remove vaults","Switch to Bitcoin L2"],"a":1,"explain":"Litepaper states a phased expansion to cross-chain assets and real-world assets (RWAs).","cite":"docs.mmt.finance"},
+{"q":"Where can you interact with Momentum’s trading, vaults, and staking UI?","opts":["app.mmt.finance","CLI only","momentum.org","email"],"a":0,"explain":"The official webapp is app.mmt.finance.","cite":"app.mmt.finance"},
+{"q":"Momentum Vaults are best described as:","opts":["Manual trading pools","Automated yield strategies","NFT marketplace","CEX custodial wallets"],"a":1,"explain":"Vaults are automated, set-and-forget yield strategies per docs.","cite":"docs.mmt.finance"},
+{"q":"Momentum returns trading fees mainly to:","opts":["Dev team only","veMMT holders","Random airdrops","Only LPs"],"a":1,"explain":"Docs describe aligning fee rewards with veMMT (vote-escrow) holders.","cite":"docs.mmt.finance"},
+{"q":"Which bridges are visible via the Momentum app?","opts":["Wormhole, Squid, Li.Fi","Lightning Network only","No bridges","Polygon PoS only"],"a":0,"explain":"Bridge links such as Wormhole, Squid, Li.Fi appear on the app landing UI.","cite":"app.mmt.finance"},
+{"q":"What earlier product name evolved into Momentum?","opts":["SafeSwap","MSafe","MoveSwap","VaultSafe"],"a":1,"explain":"Momentum evolved from MSafe (multi-sig origins).","cite":"docs.mmt.finance"},
+{"q":"What is the vision stated in Momentum’s litepaper?","opts":["Make all assets tradable, for everyone, everywhere.","Replace all banks","NFT-only focus","Build a gaming token"],"a":0,"explain":"Litepaper uses the phrase 'Make all assets tradable, for everyone, everywhere.'","cite":"docs.mmt.finance"},
+{"q":"Why might institutions use Momentum?","opts":["MSafe and compliance tools","Only memecoins","NFT minting only","File storage"],"a":0,"explain":"Momentum offers MSafe and compliance-focused infrastructure for institutional users.","cite":"docs.mmt.finance"},
+{"q":"In developer docs, CLMM stands for:","opts":["Central Limit Market Maker","Concentrated Liquidity Market Maker","Central Ledger Market","Crypto Liquidity Module"],"a":1,"explain":"CLMM is Concentrated Liquidity Market Maker (developer docs).","cite":"developers.mmt.finance"},
+{"q":"Which on-app feature helps track top performers?","opts":["Leaderboard","CSV export only","Password manager","None"],"a":0,"explain":"The app UI includes a Leaderboard link (visible on landing).","cite":"app.mmt.finance"},
+{"q":"Which statement is accurate about Momentum?","opts":["Unify retail & institutional markets into compliant liquidity layer","Only a meme coin","Closed-source bank","No docs available"],"a":0,"explain":"Momentum aims to unify retail + institutional markets with compliant liquidity infrastructure per litepaper/docs.","cite":"docs.mmt.finance"}
+];
+
+const TOTAL = QUESTIONS.length;
+let index = 0, score = 0, correctCount = 0;
+let timer = null, timeLeft = 25;
+document.getElementById('qTotal').textContent = TOTAL;
+
+const startBtn = document.getElementById('startBtn');
+const questionArea = document.getElementById('questionArea');
+const intro = document.getElementById('intro');
+const questionText = document.getElementById('questionText');
+const answersList = document.getElementById('answersList');
+const qIndex = document.getElementById('qIndex');
+const scoreEl = document.getElementById('score');
+const timerEl = document.getElementById('timer');
+const nextBtn = document.getElementById('nextBtn');
+const progressBar = document.getElementById('progressBar');
+const resultArea = document.getElementById('resultArea');
+const finalStats = document.getElementById('finalStats');
+const finalTitle = document.getElementById('finalTitle');
+const shareTxt = document.getElementById('shareTxt');
+const saveScore = document.getElementById('saveScore');
+const leaderboard = document.getElementById('leaderboard');
+const keyArea = document.getElementById('keyArea');
+const keyList = document.getElementById('keyList');
+const viewKeyBtn = document.getElementById('viewKeyBtn');
+const playAgain = document.getElementById('playAgain');
+
+function startQuiz(){
+  intro.style.display='none';
+  questionArea.style.display='block';
+  index=0; score=0; correctCount=0;
+  scoreEl.textContent=score;
+  renderQuestion();
+}
+
+function renderQuestion(){
+  const q = QUESTIONS[index];
+  qIndex.textContent = index+1;
+  questionText.textContent = q.q;
+  answersList.innerHTML='';
+  q.opts.forEach((opt,i)=>{
+    const btn = document.createElement('button');
+    btn.className='opt';
+    btn.tabIndex=0;
+    btn.textContent = String.fromCharCode(65+i)+'.  ' + opt;
+    btn.onclick = () => selectAnswer(i, btn);
+    answersList.appendChild(btn);
+  });
+  nextBtn.disabled=true;
+  timeLeft=25;
+  timerEl.textContent=timeLeft;
+  updateProgress();
+  startTimer();
+}
+
+function selectAnswer(choice, btn){
+  stopTimer();
+  const q = QUESTIONS[index];
+  const correct = q.a;
+  [...answersList.children].forEach(b=>b.disabled=true);
+  if(choice === correct){
+    const bonus = Math.round(timeLeft * 0.5);
+    score += 10 + bonus;
+    correctCount++;
+    btn.style.outline='3px solid rgba(34,197,94,0.18)';
+  } else {
+    btn.style.opacity='0.7';
+    [...answersList.children][correct].style.outline='3px solid rgba(250,204,21,0.13)';
+  }
+  scoreEl.textContent = score;
+  nextBtn.disabled=false;
+}
+
+function nextQuestion(){
+  index++;
+  if(index >= TOTAL){ endQuiz(); return; }
+  renderQuestion();
+}
+
+function startTimer(){
+  stopTimer();
+  timer = setInterval(()=>{
+    timeLeft--;
+    timerEl.textContent = timeLeft;
+    if(timeLeft<=0){
+      stopTimer();
+      [...answersList.children].forEach(b=>b.disabled=true);
+      const correct = QUESTIONS[index].a;
+      [...answersList.children][correct].style.outline='3px solid rgba(250,204,21,0.13)';
+      nextBtn.disabled=false;
+    }
+  }, 1000);
+}
+
+function stopTimer(){ if(timer) clearInterval(timer); timer=null; }
+
+function updateProgress(){ const pct = Math.round((index/TOTAL)*100); progressBar.style.width = pct + '%'; }
+
+function endQuiz(){
+  stopTimer();
+  questionArea.style.display='none';
+  resultArea.style.display='block';
+  finalTitle.textContent = 'Your Result';
+  finalStats.innerHTML = `Score: <strong>${score}</strong> &nbsp; | &nbsp; Correct: <strong>${correctCount} / ${TOTAL}</strong> &nbsp; | &nbsp; Percentage (approx): <strong>${Math.round((correctCount/TOTAL)*100)}%</strong>`;
+  shareTxt.value = `I scored ${score} pts on the MMT Momentum Quiz (${correctCount}/${TOTAL}). Try: your-site-url`;
+  renderLeaderboard();
+}
+
+function renderLeaderboard(){
+  const data = JSON.parse(localStorage.getItem('mmt_quiz_lb')||'[]');
+  leaderboard.innerHTML='';
+  if(data.length===0){ leaderboard.innerHTML='<li class="small">No scores saved yet.</li>'; return; }
+  data.slice(0,10).forEach(s=>{
+    const li = document.createElement('li');
+    li.textContent = `${s.name} — ${s.score} pts (${s.date})`;
+    leaderboard.appendChild(li);
+  });
+}
+
+startBtn.addEventListener('click', startQuiz);
+nextBtn.addEventListener('click', () => {
+  index++;
+  if(index >= TOTAL) endQuiz();
+  else renderQuestion();
+});
+viewKeyBtn.addEventListener('click', ()=>{
+  keyArea.style.display = keyArea.style.display === 'block' ? 'none' : 'block';
+  if(keyArea.style.display === 'block'){
+    keyList.innerHTML = QUESTIONS.map((q,i) => `<strong>Q${i+1}.</strong> ${q.q} <br/><em>Answer:</em> ${String.fromCharCode(65+q.a)} — ${q.opts[q.a]}<br/><span style="color:#9fb3c9">${q.explain} (${q.cite})</span><hr/>`).join('');
+  }
+});
+saveScore.addEventListener('click', ()=>{
+  const name = prompt('Enter a display name for leaderboard (max 20 chars)', 'anon') || 'anon';
+  const entry = { name: name.slice(0,20), score, date: (new Date()).toLocaleString() };
+  const data = JSON.parse(localStorage.getItem('mmt_quiz_lb')||'[]');
+  data.push(entry);
+  data.sort((a,b)=>b.score-a.score);
+  localStorage.setItem('mmt_quiz_lb', JSON.stringify(data));
+  renderLeaderboard();
+  alert('Saved to local leaderboard!');
+});
+playAgain.addEventListener('click', ()=>{
+  resultArea.style.display='none';
+  intro.style.display='block';
+  keyArea.style.display='none';
+});
+renderLeaderboard();
+</script>
+</body>
+</html>
